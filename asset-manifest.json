@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/VasVV/RussianWeatherAp/static/css/main.1fe248a7.css",
-    "main.js": "/VasVV/RussianWeatherAp/static/js/main.41c4306e.js",
-    "index.html": "/VasVV/RussianWeatherAp/index.html",
-    "main.1fe248a7.css.map": "/VasVV/RussianWeatherAp/static/css/main.1fe248a7.css.map",
-    "main.41c4306e.js.map": "/VasVV/RussianWeatherAp/static/js/main.41c4306e.js.map"
+    "main.css": "/RussianWeatherApp/static/css/main.1fe248a7.css",
+    "main.js": "/RussianWeatherApp/static/js/main.41c4306e.js",
+    "index.html": "/RussianWeatherApp/index.html",
+    "main.1fe248a7.css.map": "/RussianWeatherApp/static/css/main.1fe248a7.css.map",
+    "main.41c4306e.js.map": "/RussianWeatherApp/static/js/main.41c4306e.js.map"
   },
   "entrypoints": [
     "static/css/main.1fe248a7.css",
