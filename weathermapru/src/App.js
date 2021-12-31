@@ -62,7 +62,7 @@ function App() {
   const weatherRequest = async(city, lat, lon) => {
     let data = {lat, lon};
     try {
-      const response = await axios.post('/recieveweather', data);
+      const response = await axios.post('/receiveweather', data);
       console.log(response);
       let curr = response.data.fact;
       let tomorrow = response.data.forecasts[1];
