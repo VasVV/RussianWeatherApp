@@ -37,9 +37,8 @@ app.post('/recieveweather', (req, res) => {
 
     axios(requestOptions)
     .then(function (response) {
-      JSON.stringify(response.data);
+      res.send(response.data);
     })
-    .then(result => res.send(result))
     .catch(function (error) {
       console.log(error);
     });
