@@ -14,7 +14,7 @@ app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.resolve(__dirname, '../weathermapru/build')));
 
 require('dotenv').config();
 
@@ -41,6 +41,10 @@ app.post('/recieveweather', (req, res) => {
     .then(result => res.send(result))
     .catch(error => console.log('error', error));
 })
+
+app.get('*', function(request, response) {
+  response.sendFile(path.resolve(__dirname, '../weathermapru/build', 'index.html'));
+});
 
 
 app.listen(PORT, () => {
