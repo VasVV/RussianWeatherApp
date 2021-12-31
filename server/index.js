@@ -39,7 +39,7 @@ app.post('/recieveweather', (req, res) => {
     .then(function (response) {
       JSON.stringify(response.data);
     })
-    .then(result => res.send(resulst))
+    .then(result => res.send(result))
     .catch(function (error) {
       console.log(error);
     });
