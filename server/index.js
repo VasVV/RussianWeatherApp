@@ -14,7 +14,7 @@ app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, '../weathermapru/build')));
+app.use('/RussianWeatherApp', express.static(path.join(__dirname, '../weathermapru/build')));
 
 require('dotenv').config();
 
