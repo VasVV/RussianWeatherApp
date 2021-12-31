@@ -63,6 +63,7 @@ function App() {
     let data = {lat, lon};
     try {
       const response = await axios.post('/recieveweather', data);
+      console.log(response);
       let curr = response.data.fact;
       let tomorrow = response.data.forecasts[1];
       setWeather(prevState => [...prevState, {city, curr, tomorrow, opened: false}]); 
