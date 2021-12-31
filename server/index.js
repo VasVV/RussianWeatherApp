@@ -4,7 +4,7 @@ const path = require("path");
 const cors = require("cors");
 const bp = require('body-parser');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
-
+const axios = require('axios');
 
 const app = express();
 
@@ -28,18 +28,26 @@ app.post('/recieveweather', (req, res) => {
     
     let lat = req.body.lat;
     let lon = req.body.lon;
-    
 
     const requestOptions = {
-    method: 'GET',
+    method: 'get',
+    url: `https://api.weather.yandex.ru/v2/forecast?lat=${lat}&lon=${lon}&extra=true`,
     headers,
-    redirect: 'follow'
     };
 
-    fetch(`https://api.weather.yandex.ru/v2/forecast?lat=${lat}&lon=${lon}&extra=true`, requestOptions)
-    .then(response => response.text())
-    .then(result => res.send(result))
-    .catch(error => console.log('error', error));
+    axios(config)
+    .then(function (response) {
+      JSON.stringify(response.data);
+    })
+    .then(result => res.send(resulst))
+    .catch(function (error) {
+      console.log(error);
+    });
+
+    // fetch(`https://api.weather.yandex.ru/v2/forecast?lat=${lat}&lon=${lon}&extra=true`, requestOptions)
+    // .then(response => response.text())
+    // .then(result => res.send(result))
+    // .catch(error => console.log('error', error));
 });
 
 app.get('*', function(request, response) {
