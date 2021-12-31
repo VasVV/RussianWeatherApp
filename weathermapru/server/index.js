@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3001;
 const headers = { 'X-Yandex-API-Key': process.env.API_KEY }
 app.use(logger('tiny'));
 app.use(cors());
-app.use(express.static(buildDir));
+app.use('/RussianWeatherApp', express.static(buildDir));
 
 /* Routes */
 app.get('/', (req, res) => res.sendFile(join(buildDir, 'index.html')));
