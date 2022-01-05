@@ -1,4 +1,3 @@
-
 html {
   font-family: system-ui, sans-serif;
   font-size: 1.25rem;
@@ -13,9 +12,8 @@ svg {
   margin: auto;
 }
 
-
 .App {
-  margin: 50px
+  margin: 50px;
 }
 
 .controls {

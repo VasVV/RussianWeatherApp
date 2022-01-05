@@ -1,52 +1,55 @@
-
+/* external imports  */
+require("dotenv").config();
 const express = require("express");
-const path = require("path");
-const cors = require("cors");
-const bp = require('body-parser');
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
-
-
 const app = express();
+const cors = require("cors");
+const bp = require("body-parser");
+const { resolve, join } = require("path");
+const axios = require("axios");
+const logger = require("morgan"); /* logs GET/POST requests to console useful in development */
 
-
-
-app.use(bp.json());
-app.use(bp.urlencoded({ extended: true }));
-app.use(cors());
-
-app.use(express.static(path.resolve(__dirname, '../weathermapru/build')));
-
-require('dotenv').config();
-
+const buildDir = resolve(__dirname, "../weathermapru/build");
 const PORT = process.env.PORT || 3001;
+const headers = { "X-Yandex-API-Key": process.env.API_KEY };
+app.use(logger("tiny"));
+app.use(cors());
+app.use("/RussianWeatherApp", express.static(buildDir));
 
-const headers = {
-    'X-Yandex-API-Key': process.env.API_KEY,
-  }
+/* Routes */
+app.get("/", (req, res) => res.sendFile(join(buildDir, "index.html")));
 
-app.post('/recieveweather', (req, res) => {
-    
-    let lat = req.body.lat;
-    let lon = req.body.lon;
-    
+/* if no route matches */
+app.get("*", (req, res) =>
+  res.status(404).send("Sorry we couldn't find that page")
+);
 
-    const requestOptions = {
-    method: 'GET',
+/* Post */
+
+/* parse application/json */
+app.use(bp.json());
+/* parse application/x-www-form-urlencoded */
+app.use(bp.urlencoded({ extended: false }));
+
+app.post("/receiveweather", (req, res, next) => {
+  const { lat, lon } = req.body;
+
+  /* options for fetch weather */
+  const requestOptions = {
+    method: "GET",
     headers,
-    redirect: 'follow'
-    };
+    redirect: "follow",
+  };
 
-    fetch(`https://api.weather.yandex.ru/v2/forecast?lat=${lat}&lon=${lon}&extra=true`, requestOptions)
-    .then(response => response.text())
-    .then(result => res.send(result))
-    .catch(error => console.log('error', error));
-})
-
-app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, '../weathermapru/build', 'index.html'));
+  axios(requestOptions)
+    .then(function (response) {
+      res.send(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+      next(error);
+    });
 });
 
-
 app.listen(PORT, () => {
-    console.log(`Server listening on ${PORT}`);
-  });
+  console.log(`Server listening on ${PORT}`);
+});

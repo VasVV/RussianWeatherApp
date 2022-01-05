@@ -1,59 +1,51 @@
-
+/* external imports  */
+require("dotenv").config();
 const express = require("express");
-const path = require("path");
-const cors = require("cors");
-const bp = require('body-parser');
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
-const axios = require('axios');
-
 const app = express();
+const cors = require("cors");
+const bp = require("body-parser");
+const { resolve, join } = require("path");
+const axios = require("axios");
 
-
-
-app.use(bp.json());
-app.use(bp.urlencoded({ extended: true }));
-app.use(cors());
-
-app.use('/RussianWeatherApp', express.static(path.join(__dirname, '../weathermapru/build')));
-
-require('dotenv').config();
-
+const buildDir = resolve(__dirname, "../weathermapru/build");
 const PORT = process.env.PORT || 3001;
+const headers = { "X-Yandex-API-Key": process.env.API_KEY };
+app.use(cors());
+app.use("/RussianWeatherApp", express.static(buildDir));
 
-const headers = {
-    'X-Yandex-API-Key': process.env.API_KEY,
-  }
+/* Routes */
+app.get("/", (req, res) => res.sendFile(join(buildDir, "index.html")));
 
-app.post('/recieveweather', (req, res) => {
-    
-    let lat = req.body.lat;
-    let lon = req.body.lon;
+/* if no route matches */
+app.get("*", (req, res) =>
+  res.status(404).send("Sorry we couldn't find that page")
+);
 
-    const requestOptions = {
-    method: 'get',
+/* Post */
+
+/* parse application/json */
+app.use(bp.json());
+/* parse application/x-www-form-urlencoded */
+app.use(bp.urlencoded({ extended: false }));
+
+app.post("/receiveweather", (req, res, next) => {
+  let lat = req.body.lat;
+  let lon = req.body.lon;
+
+  const requestOptions = {
+    method: "get",
     url: `https://api.weather.yandex.ru/v2/forecast?lat=${lat}&lon=${lon}&extra=true`,
     headers,
-    };
+  };
 
-    axios(requestOptions)
+  axios(requestOptions)
     .then(function (response) {
       res.send(response.data);
     })
     .catch(function (error) {
       console.log(error);
+      next(error);
     });
-
-    // fetch(`https://api.weather.yandex.ru/v2/forecast?lat=${lat}&lon=${lon}&extra=true`, requestOptions)
-    // .then(response => response.text())
-    // .then(result => res.send(result))
-    // .catch(error => console.log('error', error));
 });
 
-app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, '../weathermapru/build', 'index.html'));
-});
-
-
-app.listen(PORT, () => {
-    console.log(`Server listening on ${PORT}`);
-  });
+app.listen(PORT, () => console.log(`listening at ${PORT}`));

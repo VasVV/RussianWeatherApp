@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/RussianWeatherApp/static/css/main.187622c0.css",
-    "main.js": "/RussianWeatherApp/static/js/main.dadcea69.js",
+    "main.js": "/RussianWeatherApp/static/js/main.3862862c.js",
     "index.html": "/RussianWeatherApp/index.html",
     "main.187622c0.css.map": "/RussianWeatherApp/static/css/main.187622c0.css.map",
-    "main.dadcea69.js.map": "/RussianWeatherApp/static/js/main.dadcea69.js.map"
+    "main.3862862c.js.map": "/RussianWeatherApp/static/js/main.3862862c.js.map"
   },
   "entrypoints": [
     "static/css/main.187622c0.css",
-    "static/js/main.dadcea69.js"
+    "static/js/main.3862862c.js"
   ]
 }
